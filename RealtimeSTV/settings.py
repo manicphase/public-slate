@@ -44,7 +44,6 @@ CSRF_TRUSTED_ORIGINS = ['https://ppl.manicphase.me', 'http://localhost']
 
 INSTALLED_APPS = [
     "AlternativeVote.apps.AlternativevoteConfig",
-    "polls.apps.PollsConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
