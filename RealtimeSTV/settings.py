@@ -132,8 +132,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,"RealtimeSTV/static"),
-    os.path.join(BASE_DIR, "AlternativeVote/static"),
+    os.path.join(BASE_DIR,"/RealtimeSTV/static"),
+    os.path.join(BASE_DIR, "/AlternativeVote/static"),
 ]
 
 # Default primary key field type
