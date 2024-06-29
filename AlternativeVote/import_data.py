@@ -42,3 +42,5 @@ for index, row in df.iterrows():
                               constituency=Constituency.objects.get(name=constituency_name), 
                               party=Party.objects.get(name=party_name))
         candidate.save()
+
+print("done")

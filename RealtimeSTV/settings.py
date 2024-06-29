@@ -38,7 +38,7 @@ ALLOWED_HOSTS = [
     'localhost'
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://ppl.manicphase.me', 'http://localhost']
+CSRF_TRUSTED_ORIGINS = ['https://ppl.manicphase.me', 'http://localhost', 'http://publicslate.co.uk']
 
 # Application definition
 
