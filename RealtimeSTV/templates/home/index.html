@@ -1,0 +1,23 @@
+{% load static %}
+
+<head>
+    <title>Public Slate{% block pagetitle %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    {% block extrahead %}{% endblock %}
+<script>
+    {% block scripts %}{% endblock %}
+</script>
+</head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="headerSpan">
+    <h1>Public Slate</h1>
+    <a href="/">Home</a> <a href = "/av">Constituencies</a>
+</div>
+<div class="frame">
+    <div class="content">
+        {% block content %}{% endblock content %}
+    </div>
+    {% include 'templates/home/footer.html' %}
+
+</div>

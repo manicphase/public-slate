@@ -1,0 +1,46 @@
+{% extends 'templates/home/index.html' %}
+{% load static %}
+{% block pagetitle %} - {{ constituency.name }}{% endblock %}
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'styles/results.css' %}">
+<script src="{% static 'scripts/results.js' %}" />
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}
+
+{% block content %}
+<h2>{{ constituency.name }}</h2>
+{{ ballots }} ballots cast<br><br>
+
+Results using first past the post:<br>
+{% include 'templates/AlternativeVote/winner.html' with details=first_past_the_post %}
+<div class="show_hide_bar" id="show_hide_instant_runoff" onclick="show_vote_details('fptp_logic', 'hidden_details')" >
+    <u>Show/hide first past the post process</u>
+</div><br>
+<div class="hidden_details" id="fptp_logic" onclick="show_vote_details('fptp_process', 'hidden_details')" >
+    {% include 'templates/AlternativeVote/explainers/fptp.html' with first_past_the_post=first_past_the_post %}
+</div>
+
+Results using single transferable vote:<br>
+{% include 'templates/AlternativeVote/winner.html' with details=instant_runoff %}
+<div class="show_hide_bar" id="show_hide_instant_runoff" onclick="show_vote_details('instant_runoff_logic', 'hidden_details')" >
+    <u>Show/hide instant runoff process</u>
+</div><br>
+<div class="hidden_details" id="instant_runoff_logic">
+    {% include 'templates/AlternativeVote/explainers/instant_runoff.html' with instant_runoff=instant_runoff %}
+</div>
+
+Results using ranked pair voting:<br>
+{% include 'templates/AlternativeVote/winner.html' with details=ranked_pairs %}
+<div class="show_hide_bar" id="ranked_pair_voting_runoff" onclick="show_vote_details('ranked_pair_voting_logic', 'hidden_details')" >
+    <u>Show/hide ranked pair voting process</u>
+</div><br>
+<div class="hidden_details" id="ranked_pair_voting_logic">
+    {% include 'templates/AlternativeVote/explainers/ranked_pair.html' with ranked_pairs=ranked_pairs %}
+</div>
+
+<a href="{% url 'AlternativeVote:detail' constituency.id %}">Vote in this election</a><br>
+
+{% endblock content %}

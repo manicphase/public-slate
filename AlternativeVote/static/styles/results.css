@@ -1,0 +1,9 @@
+.hidden_details {
+    display: none;
+}
+.show_hide_bar {
+    background-color: aquamarine;
+}
+.compact_heading {
+    margin: 0px;
+}

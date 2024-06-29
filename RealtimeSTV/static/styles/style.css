@@ -1,0 +1,31 @@
+body {
+    width: 100vw;
+    margin: 0%;
+
+}
+.headerSpan {
+    display: inline-block;
+    background-color: rgb(202, 202, 202);
+    width: 100%;
+    align-content: space-between;
+}
+.frame {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 3vw;
+}
+.content {
+    align-content: center;
+    padding-top: 0px;
+    max-width: 1600px;
+    width: 100%;
+}
+.footer-link{
+    text-decoration: none !important;
+    border:0px !important;
+    outline:none;
+    border-width: 0px;
+    outline-width:0px;
+    border-bottom: none;
+ }

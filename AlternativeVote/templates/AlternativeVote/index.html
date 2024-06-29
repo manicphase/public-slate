@@ -1,0 +1,11 @@
+{% extends 'templates/home/index.html' %}
+{% block pagetitle %} - Constituencies{% endblock %}
+
+{% block content %}
+
+<ul>
+{% for constituency in constituencies %}
+<li><a href="{% url 'AlternativeVote:results' constituency.id %}">{{ constituency.name }}</a></li>
+{% endfor %}
+</ul>
+{% endblock content %}

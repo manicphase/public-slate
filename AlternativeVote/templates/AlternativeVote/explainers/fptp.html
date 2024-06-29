@@ -1,0 +1,15 @@
+<table>
+    
+    {% for candidate in first_past_the_post.tally.items %}
+        <tr>
+            <td>
+                {{ candidate.0 }} <br> {{candidate.0.party }}
+            </td>
+            <td>
+                {{ candidate.1 }} votes
+            </td>
+        </tr>
+    {% endfor %}
+</table><br>
+{{ first_past_the_post.winner.0 }} wins due to getting the most votes after one round.
+<br><br>

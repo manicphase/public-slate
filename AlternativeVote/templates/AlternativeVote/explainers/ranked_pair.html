@@ -1,0 +1,24 @@
+Ranked pairs voting works by setting each possible pair of candidates in a head to head contest. 
+The process for each contest involves awarding a point to a contestant for each ballot in which they either score a higher preference or in which their opponent is not scored.
+<br><br>
+{% for candidate, contests in ranked_pairs.duels.items %}
+<b>{{candidate}} - {{ candidate.party }}</b><br>
+<table>
+    <th>Opponent</th>
+    <th>Ballots<br>for</th>
+    <th>Ballots<br>against</th>
+    <th>Winner</th>
+    {% for contest in contests.duels %}
+    <tr>
+        <td>{{ contest.opponent }}</td>
+        <td>{{ contest.for }}</td>
+        <td>{{ contest.against }}</td>
+        <td>{{ contest.winner }}</td>
+    </tr>
+    {% endfor %}
+</table>
+Contests won: <b>{{ candidate.wins }}</b>
+<br><br>
+{% endfor %}
+<b>{{ ranked_pairs.winner.0 }}</b> elected with <b>{{ ranked_pairs.winner.1 }}</b> contest wins.
+<br><br>

@@ -1,0 +1,16 @@
+{% for roundname, rounddata in instant_runoff.rounds.items %}
+    <h3>{{ roundname }}</h3>
+    <table>
+        {% for candidate, votecount in rounddata.passed.items %}
+        <tr>
+            <td>{{ candidate }} <br> {{ candidate.party }}</td>
+            <td>{{ votecount }} votes</td>
+        </tr>
+        {% endfor %}
+    </table><br>
+    {{ rounddata.relegated }} is relegated for having the least votes in this round. Ballots counted for this person are now recounted using the next highest preference.
+
+{% endfor %}<br>
+<br>
+{{ instant_runoff.winner.0 }} wins the election due to all other candidates being relegated.
+<br><br>

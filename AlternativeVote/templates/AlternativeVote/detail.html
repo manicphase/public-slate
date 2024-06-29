@@ -1,0 +1,27 @@
+{% extends 'templates/home/index.html' %}
+{% block pagetitle %} - {{ constituency.name }}{% endblock %}
+{% block content %}
+<h2>{{ constituency.name }}</h2>
+<i>Ranked choice voting: Select as many candidates as you want in order of preference with <b>1</b> behind the highest. You do not have to rank every candidate.</i>
+<form action="{% url 'AlternativeVote:vote' constituency.id %}" method="post">
+    {% csrf_token %}
+    <table>
+        {% for candidate in constituency.candidate_set.all %}
+            <tr>
+                <td>{{ candidate.name }}<br>
+                    {{ candidate.party }}</td> 
+                <td>
+                <select name="candidate{{ candidate.id }}" id="cars">
+                <option value=""></option>
+                {% for c in constituency.candidate_set.all %}
+                <option value="vote{{forloop.counter}}">{{forloop.counter}}</option>
+                {% endfor %}
+                </select>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <input type="submit" value="Vote"><br>
+    <a href="{% url 'AlternativeVote:results' constituency.id %}">Back to results</a>
+</form>
+{% endblock content %}
