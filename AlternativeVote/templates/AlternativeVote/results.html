@@ -15,8 +15,12 @@
 {{ ballots }} ballots cast<br><br>
 
 Results using first past the post:<br>
-{% include 'templates/AlternativeVote/winner.html' with details=first_past_the_post %}
-<div class="show_hide_bar" id="show_hide_instant_runoff" onclick="show_vote_details('fptp_logic', 'hidden_details')" >
+{% if first_past_the_post.winner %}
+    {% include 'templates/AlternativeVote/winner.html' with details=first_past_the_post %}
+{% else %}
+    <h3 class="compact_heading">Winner: No outright winner</h3>
+{% endif %}
+    <div class="show_hide_bar" id="show_hide_instant_runoff" onclick="show_vote_details('fptp_logic', 'hidden_details')" >
     <u>Show/hide first past the post process</u>
 </div><br>
 <div class="hidden_details" id="fptp_logic" onclick="show_vote_details('fptp_process', 'hidden_details')" >
@@ -24,7 +28,11 @@ Results using first past the post:<br>
 </div>
 
 Results using single transferable vote:<br>
-{% include 'templates/AlternativeVote/winner.html' with details=instant_runoff %}
+{% if instant_runoff.winner %}
+    {% include 'templates/AlternativeVote/winner.html' with details=instant_runoff %}
+{% else %}
+    <h3 class="compact_heading">Winner: No outright winner</h3>
+{% endif %}
 <div class="show_hide_bar" id="show_hide_instant_runoff" onclick="show_vote_details('instant_runoff_logic', 'hidden_details')" >
     <u>Show/hide instant runoff process</u>
 </div><br>
@@ -33,7 +41,11 @@ Results using single transferable vote:<br>
 </div>
 
 Results using ranked pair voting:<br>
-{% include 'templates/AlternativeVote/winner.html' with details=ranked_pairs %}
+{% if ranked_pairs.winner %}
+    {% include 'templates/AlternativeVote/winner.html' with details=ranked_pairs %}
+{% else %}
+    <h3 class="compact_heading">Winner: No outright winner</h3>
+{% endif %}
 <div class="show_hide_bar" id="ranked_pair_voting_runoff" onclick="show_vote_details('ranked_pair_voting_logic', 'hidden_details')" >
     <u>Show/hide ranked pair voting process</u>
 </div><br>

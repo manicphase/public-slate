@@ -82,7 +82,8 @@ def instant_runoff(constituency):
 
         results["rounds"][f"round {x+1}"] = {"passed":dict(tally),
                                              "relegated": last_place}
-    results["winner"] = tally.most_common()[0]
+    if tally.most_common()[0][1] > tally.most_common()[1][1]:
+        results["winner"] = tally.most_common()[0]
     return results
 
 def first_past_the_post(constituency):
@@ -95,8 +96,9 @@ def first_past_the_post(constituency):
         if voter.vote_set.all():
             tally[voter.vote_set.all().order_by("preference")[0].candidate] += 1
 
-    results = {"tally": dict(tally),
-               "winner": tally.most_common()[0]}
+    results = {"tally": dict(tally),}
+    if tally.most_common()[0][1] > tally.most_common()[1][1]:
+        results["winner"] = tally.most_common()[0]
     return results
 
 def candidate_duel(candidate_a, candidate_b, voters):
@@ -165,9 +167,10 @@ def ranked_pairs(constituency):
     for c in candidates:
         c.wins = candidate_totals[c]
 
-    return {"duels": duels,
-            "winner": candidate_totals.most_common()[0]}
-
+    results = {"duels": duels}
+    if candidate_totals.most_common()[0][1] > candidate_totals.most_common()[1][1]:
+        results["winner"] = candidate_totals.most_common()[0]
+    return results
 
 def results(request, pk):
     constituency = Constituency.objects.get(pk=pk)
