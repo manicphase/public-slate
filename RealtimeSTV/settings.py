@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import configparser
+import os
 
 config = configparser.ConfigParser()
 config.read("secrets.ini")
@@ -131,8 +132,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "RealtimeSTV/static",
-    BASE_DIR / "AlternativeVote/static",
+    os.path.join(BASE_DIR,"RealtimeSTV/static"),
+    os.path.join(BASE_DIR, "AlternativeVote/static"),
 ]
 
 # Default primary key field type
