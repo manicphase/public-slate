@@ -11,5 +11,7 @@
         </tr>
     {% endfor %}
 </table><br>
-{{ first_past_the_post.winner.0 }} wins due to getting the most votes after one round.
+{% if first_past_the_post.winner %}
+    <b>{{ first_past_the_post.winner.0 }}</b> wins due to getting the most votes after one round.
+{% endif %}
 <br><br>

@@ -12,5 +12,7 @@
 
 {% endfor %}<br>
 <br>
-{{ instant_runoff.winner.0 }} wins the election due to all other candidates being relegated.
+{% if instant_runoff.winner %}
+    <b>{{ instant_runoff.winner.0 }}</b> wins the election due to all other candidates being relegated.
+{% endif %}
 <br><br>

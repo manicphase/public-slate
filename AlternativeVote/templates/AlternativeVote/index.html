@@ -2,7 +2,7 @@
 {% block pagetitle %} - Constituencies{% endblock %}
 
 {% block content %}
-
+<h2>Consituencies</h2>
 <ul>
 {% for constituency in constituencies %}
 <li><a href="{% url 'AlternativeVote:results' constituency.id %}">{{ constituency.name }}</a></li>

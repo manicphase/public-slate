@@ -20,5 +20,7 @@ The process for each contest involves awarding a point to a contestant for each 
 Contests won: <b>{{ candidate.wins }}</b>
 <br><br>
 {% endfor %}
-<b>{{ ranked_pairs.winner.0 }}</b> elected with <b>{{ ranked_pairs.winner.1 }}</b> contest wins.
+{% if ranked_pairs.winner %}
+    <b>{{ ranked_pairs.winner.0 }}</b> elected with <b>{{ ranked_pairs.winner.1 }}</b> contest wins.
+{% endif %}
 <br><br>
