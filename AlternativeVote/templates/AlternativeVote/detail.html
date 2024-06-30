@@ -1,5 +1,9 @@
 {% extends 'templates/home/index.html' %}
+{% load static %}
 {% block pagetitle %} - {{ constituency.name }}{% endblock %}
+{% block extrahead %}
+    <script src="{% static 'scripts/details.js' %}" />
+{% endblock extrahead %}
 {% block content %}
 <h2>{{ constituency.name }}</h2>
 <i>Ranked choice voting: Select as many candidates as you want in order of preference with <b>1</b> behind the highest. You do not have to rank every candidate.</i>
@@ -11,10 +15,15 @@
                 <td>{{ candidate.name }}<br>
                     {{ candidate.party }}</td> 
                 <td>
-                <select name="candidate{{ candidate.id }}" id="cars">
+                <select name="candidate{{ candidate.id }}" 
+                        id="select{{ forloop.counter }}" 
+                        onchange="manage_selection_visibility();"
+                        class="candidate_select">
                 <option value=""></option>
                 {% for c in constituency.candidate_set.all %}
-                <option value="vote{{forloop.counter}}">{{forloop.counter}}</option>
+                <option value="vote{{forloop.counter}}" class="option{{ forloop.counter }}">
+                    {{forloop.counter}}
+                </option>
                 {% endfor %}
                 </select>
                 </td>
