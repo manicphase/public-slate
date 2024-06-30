@@ -5,6 +5,8 @@ from django.views import generic
 from pprint import pprint
 from collections import Counter
 from django.urls import reverse
+from django.core.cache import cache
+
 
 
 def get_client_ip(request):
@@ -39,6 +41,7 @@ def get_candidate_or_none(pk):
         return None
 
 def vote(request, pk):
+    cache.delete(f"results{pk}")
     client_ip = get_client_ip(request)
     try:
         existing_record = Voter.objects.get(ip_address=client_ip).delete()
@@ -173,6 +176,10 @@ def ranked_pairs(constituency):
     return results
 
 def results(request, pk):
+    cached = cache.get(f"results{pk}", None)
+    if cached:
+        print("cached", cached)
+        return cached
     constituency = Constituency.objects.get(pk=pk)
     voters = constituency.voter_set.all()
     ballots = []
@@ -187,4 +194,7 @@ def results(request, pk):
                "ranked_pairs": ranked_pairs(constituency)}
 
     
-    return render(request, "AlternativeVote/results.html", context)
+    response = render(request, "AlternativeVote/results.html", context)
+    cache.set(f"results{pk}", response)
+    print(response)
+    return response
