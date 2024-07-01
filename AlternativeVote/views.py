@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Constituency, Voter, Candidate, Vote
 from django.views import generic
 from pprint import pprint
-from collections import Counter
+from collections import Counter, namedtuple
 from django.urls import reverse
 from django.core.cache import cache
 
@@ -24,6 +24,7 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         result = list(Constituency.objects.all())
         return result
+    
 
 class DetailView(generic.DetailView):
     model = Constituency
@@ -42,7 +43,9 @@ def get_candidate_or_none(pk):
         return None
 
 def vote(request, pk):
-    cache.delete(f"results{pk}")
+    cache.delete(f"results_page_{pk}")
+    cache.delete(f"results_context_{pk}")
+
     client_ip = get_client_ip(request)
     try:
         Voter.objects.get(ip_address=client_ip).delete()
@@ -176,10 +179,9 @@ def ranked_pairs(constituency):
         results["winner"] = candidate_totals.most_common()[0]
     return results
 
-def results(request, pk):
-    cached = cache.get(f"results{pk}", None)
+def calculate_results(request, pk):
+    cached = cache.get(f"results_context_{pk}", None)
     if cached:
-        print("cached", cached)
         return cached
     constituency = Constituency.objects.get(pk=pk)
     voters = constituency.voter_set.all()
@@ -195,7 +197,48 @@ def results(request, pk):
                "ranked_pairs": ranked_pairs(constituency)}
 
     
+    #response = render(request, "AlternativeVote/results.html", context)
+    cache.set(f"results_context_{pk}", context, 86400)
+    return context
+
+
+def results(request, pk):
+    cached = cache.get(f"results_page_{pk}", None)
+    if cached:
+        return cached
+    
+    context = calculate_results(request, pk)
     response = render(request, "AlternativeVote/results.html", context)
-    cache.set(f"results{pk}", response, 86400)
+    
+    cache.set(f"results_page_{pk}", response, 86400)
     print(response)
+    return response
+
+
+def national_table(request):
+    cached = cache.get(f"national_table", None)
+    if cached:
+        return cached
+    
+    constituencies = Constituency.objects.all()    
+    election_types = ["ranked_pairs", "instant_runoff", "first_past_the_post"]
+    counts_table = {et: Counter() for et in election_types}
+    results_table = {}
+
+    undecided = Counter()
+
+    for c in constituencies:
+        results_table[c.name] = calculate_results(request, c.id)
+        for et in election_types:
+            winner = results_table[c.name][et].get("winner")
+            if winner:
+                counts_table[et][winner[0].party.name] += 1
+            else:
+                undecided[et] += 1
+
+    counts_table = {k:v.most_common() for k,v in counts_table.items()}
+    counts_table["undecided"] = dict(undecided)
+
+    response = render(request, "AlternativeVote/table.html", counts_table)
+    cache.set("national_table", response)
     return response

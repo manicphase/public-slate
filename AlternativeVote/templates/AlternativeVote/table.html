@@ -1,0 +1,50 @@
+{% extends 'templates/home/index.html' %}
+{% block pagetitle %} - Constituencies{% endblock %}
+
+{% block content %}
+<h2>Seat Distribution</h2>
+This is how many seats each party would get in parliament according to each system when counting votes cast on this site.
+<h3>First past the post</h3>
+<table>
+    {% for party in first_past_the_post %}
+    <tr>
+        <td>{{ party.0 }}</td>
+        <td>{{ party.1 }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td>undecided</td>
+        <td>{{ undecided.first_past_the_post }}</td>
+    </tr>
+</table>
+<br>
+<br>
+<h3>Single Transferable Vote</h3>
+<table>
+    {% for party in instant_runoff %}
+    <tr>
+        <td>{{ party.0 }}</td>
+        <td>{{ party.1 }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td>undecided</td>
+        <td>{{ undecided.instant_runoff }}</td>
+    </tr>
+</table>
+<br>
+<br>
+<h3>Ranked Pairs</h3>
+<table>
+    {% for party in ranked_pairs %}
+    <tr>
+        <td>{{ party.0 }}</td>
+        <td>{{ party.1 }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td>undecided</td>
+        <td>{{ undecided.ranked_pairs }}</td>
+    </tr>
+    </table>
+{% endblock content %}
