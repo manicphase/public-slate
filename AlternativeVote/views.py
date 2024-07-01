@@ -22,7 +22,8 @@ class IndexView(generic.ListView):
     template_name = "AlternativeVote/index.html"
     context_object_name = "constituencies"
     def get_queryset(self):
-        return Constituency.objects.all()
+        result = list(Constituency.objects.all())
+        return result
 
 class DetailView(generic.DetailView):
     model = Constituency
@@ -44,7 +45,7 @@ def vote(request, pk):
     cache.delete(f"results{pk}")
     client_ip = get_client_ip(request)
     try:
-        existing_record = Voter.objects.get(ip_address=client_ip).delete()
+        Voter.objects.get(ip_address=client_ip).delete()
     except:
         pass
     candidates = {v:k[9:] for k,v in request.POST.items() if v and k.startswith("candidate")}
@@ -195,6 +196,6 @@ def results(request, pk):
 
     
     response = render(request, "AlternativeVote/results.html", context)
-    cache.set(f"results{pk}", response)
+    cache.set(f"results{pk}", response, 86400)
     print(response)
     return response
