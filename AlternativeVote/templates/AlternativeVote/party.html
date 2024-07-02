@@ -3,37 +3,45 @@
 
 {% block content %}
 <h2>{{ party }}</h2>
-<h3>Seats won under First Past the Post</h3>
+<h3>Seats won</h3>
 <table>
-    {% for candidate in first_past_the_post %}
+    {% for candidate, election_types in candidates.items %}
     <tr>
-        <td>{{candidate.0.name}}</td>
-        <td><a href="{% url 'AlternativeVote:results' candidate.0.constituency.id %}">{{candidate.0.constituency}}</a></td>
+        <th>
+            Winner
+        </th>
+        <th>
+            FPTP
+        </th>
+        <th>
+            STV
+        </th>
+        <th>
+            RP
+        </th>
+    </tr>
+    <tr>
+        <td>
+            Seat: <a href="{% url 'AlternativeVote:results' candidate.constituency.id %}">{{candidate.constituency}}</a>
+            <br>Candidate: {{ candidate }}
+        </td>
+        <td>
+            {% if election_types.first_past_the_post %}
+                x
+            {% endif %}
+        </td>
+        <td>
+            {% if election_types.instant_runoff %}
+                x
+            {% endif %}
+        </td>
+        <td>
+            {% if election_types.ranked_pairs %}
+                x
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>
-<br>
-<br>
-<h3>Seats won under Single Transferable Vote</h3>
-<table>
-    {% for candidate in instant_runoff %}
-    <tr>
-        <td>{{candidate.0.name}}</td>
-        <td><a href="{% url 'AlternativeVote:results' candidate.0.constituency.id %}">{{candidate.0.constituency}}</a></td>
-    </tr>
-    {% endfor %}
-</table>
-<br>
-<br>
-<h3>Seats won under Ranked Pairs</h3>
-<table>
-    {% for candidate in ranked_pairs %}
-    <tr>
-        <td>{{candidate.0.name}}</td>
-        <td><a href="{% url 'AlternativeVote:results' candidate.0.constituency.id %}">{{candidate.0.constituency}}</a></td>
-    </tr>
-    {% endfor %}
-</table>
-<br>
-<br>
+
 {% endblock %}

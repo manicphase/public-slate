@@ -243,22 +243,27 @@ def national_table(request):
     return response
 
 def party(request, pk):
-    cached = cache.get(f"party_pag_{pk}", None)
+    cached = cache.get(f"party_page_{pk}", None)
     if cached:
         return cached
     party = Party.objects.get(pk=pk)
     constituencies = Constituency.objects.all()
     election_types = ["ranked_pairs", "instant_runoff", "first_past_the_post"]
-    seats_won = {k:[] for k in election_types}
+    seats_won = {}
     for c in constituencies:
         result = calculate_results(request, c.id)
         for et in election_types:
             winner = result[et].get("winner")
             if winner:
                 if winner[0].party == party:
-                    seats_won[et].append(winner)
-    seats_won["party"] = party
-    response = render(request, "AlternativeVote/party.html", seats_won)
-    cache.get(f"party_pag_{pk}", response)
+                    existing = seats_won.get(winner[0])
+                    if not existing:
+                        seats_won[winner[0]] = {}
+                    seats_won[winner[0]][et] = True
+    candidates = {"candidates": seats_won,
+                  "party": party}
+    response = render(request, "AlternativeVote/party.html", candidates)
+    cache.set(f"party_page_{pk}", response)
     return response
+
 
