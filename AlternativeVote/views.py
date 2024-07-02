@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Constituency, Voter, Candidate, Vote
+from .models import Constituency, Party, Voter, Candidate, Vote
 from django.views import generic
 from pprint import pprint
 from collections import Counter, namedtuple
@@ -211,7 +211,6 @@ def results(request, pk):
     response = render(request, "AlternativeVote/results.html", context)
     
     cache.set(f"results_page_{pk}", response, 86400)
-    print(response)
     return response
 
 
@@ -228,11 +227,11 @@ def national_table(request):
     undecided = Counter()
 
     for c in constituencies:
-        results_table[c.name] = calculate_results(request, c.id)
+        results_table[c] = calculate_results(request, c.id)
         for et in election_types:
-            winner = results_table[c.name][et].get("winner")
+            winner = results_table[c][et].get("winner")
             if winner:
-                counts_table[et][winner[0].party.name] += 1
+                counts_table[et][winner[0].party] += 1
             else:
                 undecided[et] += 1
 
@@ -242,3 +241,24 @@ def national_table(request):
     response = render(request, "AlternativeVote/table.html", counts_table)
     cache.set("national_table", response)
     return response
+
+def party(request, pk):
+    cached = cache.get(f"party_pag_{pk}", None)
+    if cached:
+        return cached
+    party = Party.objects.get(pk=pk)
+    constituencies = Constituency.objects.all()
+    election_types = ["ranked_pairs", "instant_runoff", "first_past_the_post"]
+    seats_won = {k:[] for k in election_types}
+    for c in constituencies:
+        result = calculate_results(request, c.id)
+        for et in election_types:
+            winner = result[et].get("winner")
+            if winner:
+                if winner[0].party == party:
+                    seats_won[et].append(winner)
+    seats_won["party"] = party
+    response = render(request, "AlternativeVote/party.html", seats_won)
+    cache.get(f"party_pag_{pk}", response)
+    return response
+

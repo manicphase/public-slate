@@ -4,10 +4,11 @@ from . import views
 
 app_name = "AlternativeVote"
 urlpatterns = [
-    path("", views.IndexView.as_view(), name="index"),
-    path("<int:pk>", views.DetailView.as_view(), name="detail"),
-    path("<int:pk>/test", views.testView, name="test"),
-    path("<int:pk>/vote", views.vote, name="vote"),
-    path("<int:pk>/results", views.results, name="results"),
-    path("table", views.national_table, name="national_table")
+    path("constituency", views.IndexView.as_view(), name="index"),
+    path("constituency/<int:pk>", views.DetailView.as_view(), name="detail"),
+    path("constituency/<int:pk>/test", views.testView, name="test"),
+    path("constituency/<int:pk>/vote", views.vote, name="vote"),
+    path("constituency/<int:pk>/results", views.results, name="results"),
+    path("party/<int:pk>", views.party, name="party"),
+    path("table", views.national_table, name="national_table"),
 ]

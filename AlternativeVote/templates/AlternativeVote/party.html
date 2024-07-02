@@ -1,0 +1,39 @@
+{% extends 'templates/home/index.html' %}
+{% block pagetitle %} - {{ party }}{% endblock %}
+
+{% block content %}
+<h2>{{ party }}</h2>
+<h3>Seats won under First Past the Post</h3>
+<table>
+    {% for candidate in first_past_the_post %}
+    <tr>
+        <td>{{candidate.0.name}}</td>
+        <td><a href="{% url 'AlternativeVote:results' candidate.0.constituency.id %}">{{candidate.0.constituency}}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<br>
+<h3>Seats won under Single Transferable Vote</h3>
+<table>
+    {% for candidate in instant_runoff %}
+    <tr>
+        <td>{{candidate.0.name}}</td>
+        <td><a href="{% url 'AlternativeVote:results' candidate.0.constituency.id %}">{{candidate.0.constituency}}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<br>
+<h3>Seats won under Ranked Pairs</h3>
+<table>
+    {% for candidate in ranked_pairs %}
+    <tr>
+        <td>{{candidate.0.name}}</td>
+        <td><a href="{% url 'AlternativeVote:results' candidate.0.constituency.id %}">{{candidate.0.constituency}}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<br>
+{% endblock %}

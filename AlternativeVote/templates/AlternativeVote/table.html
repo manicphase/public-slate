@@ -1,5 +1,5 @@
 {% extends 'templates/home/index.html' %}
-{% block pagetitle %} - Constituencies{% endblock %}
+{% block pagetitle %} - Seat Distribution{% endblock %}
 
 {% block content %}
 <h2>Seat Distribution</h2>
@@ -8,7 +8,7 @@ This is how many seats each party would get in parliament according to each syst
 <table>
     {% for party in first_past_the_post %}
     <tr>
-        <td>{{ party.0 }}</td>
+        <td><a href="party/{{party.0.id}}">{{ party.0 }}</a></td>
         <td>{{ party.1 }}</td>
     </tr>
     {% endfor %}
@@ -23,7 +23,7 @@ This is how many seats each party would get in parliament according to each syst
 <table>
     {% for party in instant_runoff %}
     <tr>
-        <td>{{ party.0 }}</td>
+        <td><a href="party/{{party.0.id}}">{{ party.0 }}</a></td>
         <td>{{ party.1 }}</td>
     </tr>
     {% endfor %}
@@ -38,7 +38,7 @@ This is how many seats each party would get in parliament according to each syst
 <table>
     {% for party in ranked_pairs %}
     <tr>
-        <td>{{ party.0 }}</td>
+        <td><a href="party/{{party.0.id}}">{{ party.0 }}</a></td>
         <td>{{ party.1 }}</td>
     </tr>
     {% endfor %}
