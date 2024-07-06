@@ -27,15 +27,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-su_od-poo0dto7fyl$1kir7=fl6k9-i$hck83bi=8i0$b^0*y3'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+# veblen blog stuff
+ACTORS_DIR = 'actors'
+SCHEME = 'https'
 
-ALLOWED_HOSTS = [
+
+DOMAINS = [
     'publicslate.co.uk',
     'ppl.manicphase.me',
+]
+
+ALLOWED_HOSTS = DOMAINS + [
     'localhost'
 ]
 
@@ -44,6 +47,7 @@ CSRF_TRUSTED_ORIGINS = ['https://ppl.manicphase.me', 'http://localhost', 'https:
 # Application definition
 
 INSTALLED_APPS = [
+    "Blog.apps.BlogConfig",
     "AlternativeVote.apps.AlternativevoteConfig",
     'django.contrib.admin',
     'django.contrib.auth',
