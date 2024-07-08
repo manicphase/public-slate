@@ -72,7 +72,7 @@ ROOT_URLCONF = 'RealtimeSTV.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['RealtimeSTV/', 'AlternativeVote'],
+        'DIRS': ['RealtimeSTV/', 'AlternativeVote', "Blog"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,6 +140,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,"RealtimeSTV/static"),
     os.path.join(BASE_DIR, "AlternativeVote/static"),
+    os.path.join(BASE_DIR, "Blog/static"), 
 ]
 
 # Default primary key field type
