@@ -23,6 +23,9 @@ from Blog.views import webfinger
 
 urlpatterns = [
     path('', views.index, name="index"),
+    path("signup", views.signup, name="signup"),
+    path("login", views.login, name="login"),
+
     path('admin/', admin.site.urls),
     path("av/", include("AlternativeVote.urls")),
 ]

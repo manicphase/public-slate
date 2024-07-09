@@ -1,0 +1,10 @@
+{% extends 'templates/home/index.html' %}
+{% block content %}
+sign up
+<form method="POST">
+    {% csrf_token %}
+    username:<input name="username"><br>
+    password:<input name="password"><br>
+    <button type="submit">create account</button>
+</form>
+{% endblock content %}
